@@ -1,0 +1,29 @@
+# fly.toml file generated for tarotkarten-prompt-generator on 2025-08-31
+#
+# See https://fly.io/docs/reference/configuration/ for information about this file.
+#
+
+app = "tarotkarten-prompt-generator" # You can change this to your desired app name
+primary_region = "fra" # Example region, you might want to change this
+
+[build]
+  builder = "paketobuildpacks/builder-nodejs-photon"
+  buildpacks = ["https://github.com/heroku/heroku-buildpack-nodejs"]
+
+[env]
+  PORT = "8080" # Next.js typically runs on 3000, but Fly.io expects 8080 for internal routing
+  NODE_ENV = "production"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  max_machines_running = 1
+  processes = ["app"]
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory = "1GB"
